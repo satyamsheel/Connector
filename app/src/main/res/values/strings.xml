@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">UNIVERSAL</string>
+    <string name="logIn">LogIn</string>
+    <string name="Register">Register</string>
+    <string name="LOG_IN">LOG IN</string>
+    <string name="email">Enter Email</string>
+    <string name="password">Enter Password</string>
+    <string name="firstName">Enter First Name</string>
+    <string name="lastName">Enter Last Name</string>
+    <string name="rePass">ReEnter Password</string>
+    <string name="phone">Enter Phone Number</string>
+    <string name="OTP">Enter OTP</string>
+    <string name="Full_name">Enter Full Name</string>
+
+    <string name="docName">DOCUMENT NAME</string>
+    <string name="docNo">DOCUMENT NUMBER</string>
+    <string name="issueDate">ISSUE DATE</string>
+    <string name="expDate">EXP DATE</string>
+    <string name="uploadBtn">UPLOAD</string>
+    <string name="userName">MIMI</string>
+    <string name="uin">UIN: 745965421834</string>
+
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="driving_license">Driving License</string>
+    <string name="upload">Upload</string>
+    <string name="aadhar_card">Aadhar Card</string>
+    <string name="higher_secondary_edu_certi">Higher Secondary Education Certificate-10th</string>
+
+    <string name="save_changes">Save Changes</string>
+    <string name="upoad_doc">Upload Documents</string>
+    <string name="click_here_to_verify">Click here to verify</string>
+    <string name="not_verified">Not Verified</string>
+    <string name="age">Age</string>
+    <string name="dob">DOB</string>
+    <string name="already_verified_try_to_swipe_down">Already verified?\nTry to swipe down\n OR</string>
+    <string name="dalil_or_deed">Dalil or Deed</string>
+    <string name="other_licences">Other Licences</string>
+    <string name="other_certificates">Other Certificates</string>
+    <string name="nsic_registration_certificate">NSIC Registration Certificate</string>
+    <string name="msme_certificate">MSME Certificate</string>
+    <string name="udyog_aadhar_certificate">Udyog Aadhar Certificate</string>
+    <string name="treading_licence">Treading licence</string>
+    <string name="import_export_certificate">Import export certificate</string>
+    <string name="lease_agreement">Lease agreement</string>
+    <string name="rent_agreement">Rent Agreement</string>
+    <string name="insurance_certificate">Insurance Certificate</string>
+    <string name="marriage_registration_certificate">Marriage Registration Certificate</string>
+    <string name="health_care_card">Health Care Card</string>
+    <string name="job_card">JOB CARD</string>
+    <string name="employee_identity_card">Employee Identity Card</string>
+    <string name="passport">Passport</string>
+    <string name="e_pass">E-Pass</string>
+    <string name="fire_safety_licence">Fire Safety Licence</string>
+    <string name="arms_licence">Arms Licence</string>
+    <string name="address_proof_certificate">Address Proof Certificate</string>
+    <string name="value_added_tax_certificate">Value Added Tax Certificate</string>
+    <string name="incorporation_certification">Incorporation Certification</string>
+    <string name="no_objection_certificate">No Objection Certificate</string>
+    <string name="medical_fitness_certificate">Medical Fitness Certificate</string>
+    <string name="medical_certificate">Medical Certificate</string>
+    <string name="driving_licence">Driving Licence</string>
+    <string name="pollution_certificate">Pollution Certificate</string>
+    <string name="vaical_fitness_certificate">Vaical Fitness Certificate</string>
+    <string name="rc">RC</string>
+    <string name="cast_certificate">Cast Certificate</string>
+    <string name="minority_certificate">Minority Certificate</string>
+    <string name="character_certificate">Character Certificate</string>
+    <string name="residential_proof_certificate">Residential Proof Certificate</string>
+    <string name="income_proof_certificate">Income Proof Certificate</string>
+    <string name="income_tax_certificate">Income Tax Certificate</string>
+    <string name="professional_tax_certificate">Professional Tax Certificate</string>
+    <string name="goods_service_tax_certificate">Goods Service Tax Certificate</string>
+    <string name="transfer_certificate">Transfer Certificate</string>
+    <string name="ration_card">Ration Card</string>
+    <string name="birth_certificate">Birth Certificate</string>
+    <string name="school_grad_certificate_1_to_9">School Grad Certificate-1 to 9</string>
+    <string name="secondary_education_certificate_10th">Secondary Education Certificate-10th</string>
+    <string name="higher_secondary_education_certificate_12">Higher Secondary Education Certificate-12</string>
+    <string name="diploma_certificate_3yr_2yr_1yr_6month">Diploma Certificate- 3yr/2yr/1yr/6month</string>
+    <string name="graduate_education_certificate_3yr_or_4yr">Graduate Education Certificate- 3yr or 4yr</string>
+    <string name="post_graduate_certificate_2yr_3yr">Post Graduate Certificate-2yr/3yr</string>
+    <string name="p_hd_certificate">P.HD Certificate</string>
+    <string name="voter_card">Voter Card</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_pin">Enter Pin</string>
+    <string name="confirm_pin">Confirm Pin</string>
+    <string name="create_pin">Create Pin</string>
+    <string name="enter">Enter</string>
+    <string name="pan_card">Pan Card</string>
+
+</resources>

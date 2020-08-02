@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".phoneVerificationActivity">
+
+    <TextView
+        android:id="@+id/phoneNumberEndingWith"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#000"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputOTP"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="24dp"
+        android:selectAllOnFocus="true"
+        app:boxStrokeColor="@color/outline_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberEndingWith">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputOTPText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/OTP"
+            android:imeActionLabel="@string/password"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
+            android:maxLength="6"
+            android:gravity="center" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="130dp"
+        android:layout_height="39dp"
+        android:background="#000000"
+        android:onClick="finalRegistration"
+        android:shadowRadius="10"
+        android:text="@string/Register"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputOTP" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button7" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
