@@ -341,6 +341,11 @@ public class loginActivity extends AppCompatActivity {
         }
     }
 
+    public void moveToRegisterActivity(View view) {
+        Intent intent=new Intent(loginActivity.this,registerActivity.class);
+        startActivity(intent);
+    }
+
 
     private class gTextWatcher implements TextWatcher {
 
