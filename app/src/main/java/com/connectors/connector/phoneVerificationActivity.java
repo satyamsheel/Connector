@@ -25,6 +25,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -43,6 +45,7 @@ public class phoneVerificationActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth userAuth;
     FirebaseFirestore db;
+    DatabaseReference rootref;
 
 
     @Override
@@ -52,6 +55,7 @@ public class phoneVerificationActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        rootref= FirebaseDatabase.getInstance().getReference();
         userAuth = FirebaseAuth.getInstance();
         inputOTPText = findViewById(R.id.inputOTPText);
         progressBar=findViewById(R.id.progressbar);
@@ -142,20 +146,21 @@ public class phoneVerificationActivity extends AppCompatActivity {
                             Intent intentExtra = getIntent();
                             String userId = mAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = db.collection("Users").document(userId);
+                            rootref.child("Users").child(userId).setValue("");
                             Map<String, Object> user = new HashMap<>();
                             user.put("EmailId", intentExtra.getStringExtra("Email"));
                             user.put("Full Name", intentExtra.getStringExtra("First Name") + " " +
                                     intentExtra.getStringExtra("Last Name"));
                             user.put("Mobile Number", intentExtra.getStringExtra("Phone Number"));
 
-                            Calendar calendar = Calendar.getInstance();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMhhmmssSSyy");
-                            SharedPreferences pref = getApplicationContext().getSharedPreferences("BuyyaPref", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = pref.edit();
-                            String uidHolder = simpleDateFormat.format(calendar.getTime());
-                            editor.putString("IMPUID", uidHolder);
-                            editor.apply();
-                            user.put("UID", uidHolder);
+//                            Calendar calendar = Calendar.getInstance();
+//                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMhhmmssSSyy");
+//                            SharedPreferences pref = getApplicationContext().getSharedPreferences("BuyyaPref", MODE_PRIVATE);
+//                            SharedPreferences.Editor editor = pref.edit();
+//                            String uidHolder = simpleDateFormat.format(calendar.getTime());
+//                            editor.putString("IMPUID", uidHolder);
+//                            editor.apply();
+//                            user.put("UID", uidHolder);
 
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
