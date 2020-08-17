@@ -11,10 +11,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".mainDashboard" />
-        <activity android:name=".phoneVerificationActivity" />
-        <activity android:name=".registerActivity" />
-        <activity android:name=".loginActivity" />
-        <activity android:name=".splashActivity">
+        <activity android:name=".phoneVerificationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".registerActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".loginActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".splashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
