@@ -4,8 +4,8 @@
 
 
     <item
-        android:title="@string/menu_profile"
-        android:id="@+id/profile_option"
+        android:title="@string/Settings"
+        android:id="@+id/profile_settings"
         app:showAsAction="never"
         />
 

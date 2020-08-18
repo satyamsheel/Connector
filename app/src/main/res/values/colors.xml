@@ -10,8 +10,9 @@
     <color name="colorAccent">#D81B60</color>
 
 
-
     <color name="lightPurple">#BB86fc</color>
     <color name="outline_color">#000000</color>
     <color name="white">#ffffff</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

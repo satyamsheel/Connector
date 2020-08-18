@@ -59,13 +59,14 @@ public class mainDashboard extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.profile_option:
-
+            case R.id.profile_settings:
+                Intent intent = new Intent(mainDashboard.this, settings.class);
+                startActivity(intent);
                 return true;
             case R.id.profile_logout:
                 mAuth.signOut();
-                Intent intent = new Intent(mainDashboard.this, loginActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(mainDashboard.this, loginActivity.class);
+                startActivity(intent1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -14,9 +14,12 @@
 
     <string name="menu_profile">Profile</string>
     <string name="menu_logout">Logout</string>
+    <string name="title_activity_settings">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
-
-
+    <string name="status">What is your status</string>
+    <string name="Settings">Settings</string>
 
 
 

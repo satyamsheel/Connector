@@ -16,10 +16,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/appBarLayout">
 
-        <include
-            android:id="@+id/main_dashboard_toolbar"
-            layout="@layout/app_bar">
-        </include>
+
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
