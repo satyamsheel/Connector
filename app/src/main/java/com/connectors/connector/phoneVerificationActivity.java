@@ -152,6 +152,10 @@ public class phoneVerificationActivity extends AppCompatActivity {
                             user.put("Full Name", intentExtra.getStringExtra("First Name") + " " +
                                     intentExtra.getStringExtra("Last Name"));
                             user.put("Mobile Number", intentExtra.getStringExtra("Phone Number"));
+                            user.put(("Status"),"What's Up!");
+
+
+
 
 //                            Calendar calendar = Calendar.getInstance();
 //                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMhhmmssSSyy");
