@@ -36,6 +36,8 @@ public class settings extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+
         rootref= db.collection("Users").document(mAuth.getUid());
 
         settings_updateButton=findViewById(R.id.settings_updateButton);
