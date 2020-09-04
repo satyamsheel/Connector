@@ -174,15 +174,23 @@ public class phoneVerificationActivity extends AppCompatActivity {
                             firebaseUser.updateProfile(userProfileChangeRequest);
 
 
+                            rootref.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
 
+                                }
+                            });
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Intent intent = new Intent(phoneVerificationActivity.this, mainDashboard.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(phoneVerificationActivity.this, "fail",
