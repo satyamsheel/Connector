@@ -140,12 +140,17 @@ public class settings extends AppCompatActivity {
                     loadingBar.setMessage("Your Profile Image is Updating...");
                     loadingBar.show();
                     Uri resultUri=result.getUri();
-                    StorageReference filePath= profileImageStorage.child(mAuth.getCurrentUser().getUid()+".jpg");
+                    final StorageReference filePath= profileImageStorage.child(mAuth.getCurrentUser().getUid()+".jpg");
+
                     filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                             if(task.isSuccessful()){
-                                final String downloadUri =task.getResult().getDownloadUrl.toString();
+
+                                final String downloadUri =filePath.getDownloadUrl().toString();
+
+
+
 
                                 databseRef.child("Users").child(mAuth.getCurrentUser().getUid()).child("image").setValue(downloadUri).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
