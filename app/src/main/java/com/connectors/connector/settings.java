@@ -147,23 +147,29 @@ public class settings extends AppCompatActivity {
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                             if(task.isSuccessful()){
 
-                                final String downloadUri =filePath.getDownloadUrl().toString();
-
-
-
-
-                                databseRef.child("Users").child(mAuth.getCurrentUser().getUid()).child("image").setValue(downloadUri).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                //final String downloadUri =filePath.getDownloadUrl().toString();
+                                filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            Toast.makeText(settings.this,"Profile pic Updated",Toast.LENGTH_LONG).show();
-                                            loadingBar.dismiss();
-                                        }else{
-                                            Toast.makeText(settings.this,task.getException().toString(),Toast.LENGTH_LONG).show();
-                                            loadingBar.dismiss();
-                                        }
+                                    public void onSuccess(Uri uri) {
+                                        databseRef.child("Users").child(mAuth.getCurrentUser().getUid()).child("image").setValue(String.valueOf(uri)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Toast.makeText(settings.this,"Profile pic Updated",Toast.LENGTH_LONG).show();
+                                                    loadingBar.dismiss();
+                                                }else{
+                                                    Toast.makeText(settings.this,task.getException().toString(),Toast.LENGTH_LONG).show();
+                                                    loadingBar.dismiss();
+                                                }
+                                            }
+                                        });
                                     }
                                 });
+
+
+
+
+
                             }else{
                                 Toast.makeText(settings.this,task.getException().toString(),Toast.LENGTH_LONG).show();
                                 loadingBar.dismiss();
