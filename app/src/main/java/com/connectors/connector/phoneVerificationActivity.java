@@ -145,7 +145,7 @@ public class phoneVerificationActivity extends AppCompatActivity {
 
                             Intent intentExtra = getIntent();
                             String userId = mAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = db.collection("Users").document(userId);
+                            //DocumentReference documentReference = db.collection("Users").document(userId);
                             rootref.child("Users").child(userId).setValue("");
                             Map<String, Object> user = new HashMap<>();
                             user.put("EmailId", intentExtra.getStringExtra("Email"));
@@ -153,7 +153,7 @@ public class phoneVerificationActivity extends AppCompatActivity {
                                     intentExtra.getStringExtra("Last Name"));
                             user.put("Mobile Number", intentExtra.getStringExtra("Phone Number"));
                             user.put(("Status"),"What's Up!");
-
+                            user.put("image","https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png");
 
 
 
@@ -177,18 +177,21 @@ public class phoneVerificationActivity extends AppCompatActivity {
                             rootref.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-
-                                }
-                            });
-                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
                                     Intent intent = new Intent(phoneVerificationActivity.this, mainDashboard.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                     finish();
                                 }
                             });
+//                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void aVoid) {
+//                                    Intent intent = new Intent(phoneVerificationActivity.this, mainDashboard.class);
+//                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                    startActivity(intent);
+//                                    finish();
+//                                }
+//                            });
 
 
                         } else {

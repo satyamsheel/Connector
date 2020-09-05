@@ -46,9 +46,9 @@ public class settings extends AppCompatActivity {
     Button settings_updateButton;
     EditText settings_status,settings_userName;
     CircleImageView profile_image;
-    DocumentReference rootref;
+    //DocumentReference rootref;
     private FirebaseAuth mAuth;
-    FirebaseFirestore db;
+    //FirebaseFirestore db;
     final int galPick=1;
     StorageReference profileImageStorage;
     DatabaseReference databseRef;
@@ -61,13 +61,13 @@ public class settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        //db = FirebaseFirestore.getInstance();
         databseRef = FirebaseDatabase.getInstance().getReference();
         loadingBar=new ProgressDialog(this);
         profileImageStorage = FirebaseStorage.getInstance().getReference().child("Profile Images");
 
 
-        rootref= db.collection("Users").document(mAuth.getCurrentUser().getUid());
+        //rootref= db.collection("Users").document(mAuth.getCurrentUser().getUid());
 
         settings_updateButton=findViewById(R.id.settings_updateButton);
         settings_status=findViewById(R.id.settings_status);
@@ -77,8 +77,11 @@ public class settings extends AppCompatActivity {
         databseRef.child("Users").child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String retrieveProfileImage = dataSnapshot.child("image").getValue().toString();
-                Glide.with(settings.this).load(retrieveProfileImage).into(profile_image);
+                    //String retrieveProfileImage = dataSnapshot.child("image").getValue().toString();
+
+                    settings_userName.setText(dataSnapshot.child("Full Name").getValue().toString());
+                    settings_status.setText(dataSnapshot.child("Status").getValue().toString());
+                    Glide.with(settings.this).load(dataSnapshot.child("image").getValue().toString()).into(profile_image);
 
                 // Picasso.get().load(retrieveProfileImage).into(profile_image);
             }
@@ -89,20 +92,22 @@ public class settings extends AppCompatActivity {
             }
         });
 
-        rootref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()){
-                    settings_userName.setText(documentSnapshot.getString("Full Name"));
-                    settings_status.setText(documentSnapshot.getString("Status"));
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(settings.this,"Update Data",Toast.LENGTH_LONG).show();
-            }
-        });
+
+
+//        databseRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                if(documentSnapshot.exists()){
+//                    settings_userName.setText(documentSnapshot.getString("Full Name"));
+//                    settings_status.setText(documentSnapshot.getString("Status"));
+//                }
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(settings.this,"Update Data",Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,8 +120,30 @@ public class settings extends AppCompatActivity {
         });
     }
     public void updateSettings(View view) {
-        rootref.update("Full Name",settings_userName.getText().toString());
-        rootref.update("Status",settings_status.getText().toString());
+        databseRef.child("Users").child(mAuth.getCurrentUser().getUid()).child("Full Name").setValue(settings_userName.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(settings.this,"User Name Updated",Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(settings.this,task.getException().toString(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        databseRef.child("Users").child(mAuth.getCurrentUser().getUid()).child("Status").setValue(settings_status.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(settings.this,"Status Updated",Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(settings.this,task.getException().toString(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+//        rootref.update("Full Name",settings_userName.getText().toString());
+//        rootref.update("Status",settings_status.getText().toString());
     }
 
     @Override

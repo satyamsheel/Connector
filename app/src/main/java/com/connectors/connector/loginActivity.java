@@ -50,7 +50,7 @@ public class loginActivity extends AppCompatActivity {
     Button button5, phoneLogin;
     private String mVerificationId;
     TextView forgetpass;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+   // FirebaseFirestore db = FirebaseFirestore.getInstance();
     ProgressDialog progressDialog,progressDialog1;
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -183,25 +183,26 @@ public class loginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
-                            DocumentReference documentReference = db.collection("Users").document(mAuth.getCurrentUser().getUid());
-                            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    if (documentSnapshot.exists()) {
-                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("BuyyaPref", MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = pref.edit();
-                                        editor.putString("IMPUID", documentSnapshot.getString("UID"));
-                                        editor.apply();
-                                        Intent intent = new Intent(loginActivity.this, mainDashboard.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                    } else {
-
-                                    }
-                                }
-                            });
-
+                            Intent intent = new Intent(loginActivity.this, mainDashboard.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                          //  DocumentReference documentReference = db.collection("Users").document(mAuth.getCurrentUser().getUid());
+//                            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                                @Override
+//                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                                    if (documentSnapshot.exists()) {
+//                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("BuyyaPref", MODE_PRIVATE);
+//                                        SharedPreferences.Editor editor = pref.edit();
+//                                        editor.putString("IMPUID", documentSnapshot.getString("UID"));
+//                                        editor.apply();
+//                                        Intent intent = new Intent(loginActivity.this, mainDashboard.class);
+//                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                        startActivity(intent);
+//                                    } else {
+//
+//                                    }
+//                                }
+//                            });
 
                             progressDialog1.dismiss();
                         } else {
@@ -278,25 +279,30 @@ public class loginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            DocumentReference documentReference = db.collection("Users").document(mAuth.getCurrentUser().getUid());
-                            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    if (documentSnapshot.exists()) {
-                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("BuyyaPref", MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = pref.edit();
-                                        editor.putString("IMPUID", documentSnapshot.getString("UID"));
-                                        editor.apply();
-                                        Toast.makeText(loginActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
+
+                            Toast.makeText(loginActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(loginActivity.this, mainDashboard.class);
                                         startActivity(intent);
-                                        finish();
-
-                                    } else {
-
-                                    }
-                                }
-                            });
+                                       finish();
+//                            DocumentReference documentReference = db.collection("Users").document(mAuth.getCurrentUser().getUid());
+//                            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                                @Override
+//                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                                    if (documentSnapshot.exists()) {
+//                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("BuyyaPref", MODE_PRIVATE);
+//                                        SharedPreferences.Editor editor = pref.edit();
+//                                        editor.putString("IMPUID", documentSnapshot.getString("UID"));
+//                                        editor.apply();
+//                                        Toast.makeText(loginActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
+//                                        Intent intent = new Intent(loginActivity.this, mainDashboard.class);
+//                                        startActivity(intent);
+//                                        finish();
+//
+//                                    } else {
+//
+//                                    }
+//                                }
+//                            });
 
                             progressDialog1.dismiss();
 
