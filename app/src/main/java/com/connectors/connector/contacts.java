@@ -2,8 +2,11 @@ package com.connectors.connector;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.ContentResolver;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -50,7 +53,7 @@ public class contacts extends AppCompatActivity {
 
                     while (cursor1.moveToNext()){
                         String phoneNumber=cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        builder.append("Contact:").append(name).append("Number:").append(phoneNumber).append("\n\n");
+                        builder.append(name).append("  ").append(phoneNumber).append("\n\n");
                     }
                     cursor1.close();
                 }
