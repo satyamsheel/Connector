@@ -10,7 +10,6 @@
     tools:context=".mainDashboard">
 
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +22,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/main_Tab">
 
+
+
     </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -33,5 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appBarLayout">
     </androidx.viewpager.widget.ViewPager>
+
 
 </RelativeLayout>
