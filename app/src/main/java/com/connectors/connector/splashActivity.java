@@ -42,7 +42,7 @@ public class splashActivity extends AppCompatActivity {
                     intentFirst.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intentFirst);
                 }
-            }, 3000);
+            }, 1000);
 
         }
     }
