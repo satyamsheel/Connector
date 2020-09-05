@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class mainDashboard extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private TabsAdapter tabsAdapter;
