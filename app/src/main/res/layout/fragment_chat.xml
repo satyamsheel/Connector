@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginRight="28dp"
         app:fabSize="normal"/>
 
 </RelativeLayout>

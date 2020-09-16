@@ -1,21 +1,37 @@
 package com.connectors.connector;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.connectors.connector.helperClass.ContactsInfo;
+import com.connectors.connector.helperClass.MyCustomAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class contacts extends AppCompatActivity {
     Toolbar toolbar;
     TextView textView;
+    List<ContactsInfo> contactsInfoList;
+    ListView listView;
+    public static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+    MyCustomAdapter dataAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +41,9 @@ public class contacts extends AppCompatActivity {
         toolbar=findViewById(R.id.contacts_toolbar);
         setSupportActionBar(toolbar);
 
-        textView=findViewById(R.id.textView3);
+        listView = (ListView) findViewById(R.id.lstContacts);
+        listView.setAdapter(dataAdapter);
+
 
 
         if (getSupportActionBar() != null){
@@ -37,31 +55,129 @@ public class contacts extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        StringBuilder builder =new StringBuilder();
-        ContentResolver contentResolver = getContentResolver();
-        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
 
-        if(cursor.getCount()>0){
-            while(cursor.moveToNext()){
-                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                int number = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
+        requestContactPermission();
 
-                if(number>0){
-                    Cursor cursor1=contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID+"=?",new String[]{id},null);
 
-                    while (cursor1.moveToNext()){
-                        String phoneNumber=cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        builder.append(name).append("  ").append(phoneNumber).append("\n\n");
-                    }
-                    cursor1.close();
+
+//        StringBuilder builder =new StringBuilder();
+//        ContentResolver contentResolver = getContentResolver();
+//        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
+//
+//        if(cursor.getCount()>0){
+//            while(cursor.moveToNext()){
+//                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+//                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+//                int number = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
+//
+//                if(number>0){
+//                    Cursor cursor1=contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
+//                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID+"=?",new String[]{id},null);
+//
+//                    while (cursor1.moveToNext()){
+//                        String phoneNumber=cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//                        builder.append(name).append("  ").append(phoneNumber).append("\n\n");
+//                    }
+//                    cursor1.close();
+//                }
+//            }
+//            cursor.close();
+//            textView.setText(builder.toString());
+//       }
+    }
+
+    public void requestContactPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        android.Manifest.permission.READ_CONTACTS)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Read contacts access needed");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setMessage("Please enable access to contacts.");
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @TargetApi(Build.VERSION_CODES.M)
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            requestPermissions(
+                                    new String[]
+                                            {android.Manifest.permission.READ_CONTACTS}
+                                    , PERMISSIONS_REQUEST_READ_CONTACTS);
+                        }
+                    });
+                    builder.show();
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{android.Manifest.permission.READ_CONTACTS},
+                            PERMISSIONS_REQUEST_READ_CONTACTS);
                 }
+            } else {
+                getContacts();
             }
-            cursor.close();
-            textView.setText(builder.toString());
+        } else {
+            getContacts();
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_READ_CONTACTS: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getContacts();
+                } else {
+                    Toast.makeText(this, "You have disabled a contacts permission", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
+    }
+
+    private void getContacts(){
+        ContentResolver contentResolver = getContentResolver();
+        String contactId = null;
+        String displayName = null;
+        contactsInfoList = new ArrayList<ContactsInfo>();
+        Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
+                if (hasPhoneNumber > 0) {
+
+                    ContactsInfo contactsInfo = new ContactsInfo();
+                    contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                    displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+
+                    contactsInfo.setContactId(contactId);
+                    contactsInfo.setDisplayName(displayName);
+
+                    Cursor phoneCursor = getContentResolver().query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                            new String[]{contactId},
+                            null);
+
+                    if (phoneCursor.moveToNext()) {
+                        String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                        contactsInfo.setPhoneNumber(phoneNumber);
+                    }
+
+                    phoneCursor.close();
+
+                    contactsInfoList.add(contactsInfo);
+                }
+            }
+        }
+        cursor.close();
+
+        dataAdapter = new MyCustomAdapter(contacts.this, R.layout.contact_info, contactsInfoList);
+        listView.setAdapter(dataAdapter);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
