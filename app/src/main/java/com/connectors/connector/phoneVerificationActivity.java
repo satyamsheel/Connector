@@ -46,6 +46,7 @@ public class phoneVerificationActivity extends AppCompatActivity {
     private FirebaseAuth userAuth;
     FirebaseFirestore db;
     DatabaseReference rootref;
+    DatabaseReference getRootref;
 
 
     @Override
@@ -56,6 +57,7 @@ public class phoneVerificationActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         rootref= FirebaseDatabase.getInstance().getReference();
+        getRootref = FirebaseDatabase.getInstance().getReference();
         userAuth = FirebaseAuth.getInstance();
         inputOTPText = findViewById(R.id.inputOTPText);
         progressBar=findViewById(R.id.progressbar);
@@ -143,7 +145,7 @@ public class phoneVerificationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            Intent intentExtra = getIntent();
+                            final Intent intentExtra = getIntent();
                             String userId = mAuth.getCurrentUser().getUid();
                             //DocumentReference documentReference = db.collection("Users").document(userId);
                             rootref.child("Users").child(userId).setValue("");
@@ -174,13 +176,11 @@ public class phoneVerificationActivity extends AppCompatActivity {
                             firebaseUser.updateProfile(userProfileChangeRequest);
 
 
-                            rootref.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            rootref.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(user).
+                                    addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Intent intent = new Intent(phoneVerificationActivity.this, mainDashboard.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                    finish();
+                                   setNumber(intentExtra.getStringExtra("Phone Number"));
                                 }
                             });
 //                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -199,6 +199,19 @@ public class phoneVerificationActivity extends AppCompatActivity {
                             Toast.makeText(phoneVerificationActivity.this, "fail",
                                     Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+    }
+
+    private void setNumber(String phone_number) {
+        getRootref.child("UsersContacts").child(phone_number).setValue("").
+                addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent intent = new Intent(phoneVerificationActivity.this, mainDashboard.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
                     }
                 });
     }

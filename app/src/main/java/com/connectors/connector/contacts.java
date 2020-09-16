@@ -58,32 +58,6 @@ public class contacts extends AppCompatActivity {
 
         requestContactPermission();
 
-
-
-//        StringBuilder builder =new StringBuilder();
-//        ContentResolver contentResolver = getContentResolver();
-//        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
-//
-//        if(cursor.getCount()>0){
-//            while(cursor.moveToNext()){
-//                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-//                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-//                int number = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
-//
-//                if(number>0){
-//                    Cursor cursor1=contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
-//                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID+"=?",new String[]{id},null);
-//
-//                    while (cursor1.moveToNext()){
-//                        String phoneNumber=cursor1.getString(cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//                        builder.append(name).append("  ").append(phoneNumber).append("\n\n");
-//                    }
-//                    cursor1.close();
-//                }
-//            }
-//            cursor.close();
-//            textView.setText(builder.toString());
-//       }
     }
 
     public void requestContactPermission() {
