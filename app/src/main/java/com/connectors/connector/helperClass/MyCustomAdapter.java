@@ -23,6 +23,7 @@ public class MyCustomAdapter extends ArrayAdapter {
         this.context = context;
     }
 
+
     private class ViewHolder {
         TextView displayName;
         TextView phoneNumber;

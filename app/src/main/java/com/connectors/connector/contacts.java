@@ -14,7 +14,10 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,15 +26,16 @@ import com.connectors.connector.helperClass.ContactsInfo;
 import com.connectors.connector.helperClass.MyCustomAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class contacts extends AppCompatActivity {
     Toolbar toolbar;
-    TextView textView;
     List<ContactsInfo> contactsInfoList;
     ListView listView;
     public static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     MyCustomAdapter dataAdapter = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,8 @@ public class contacts extends AppCompatActivity {
 
         toolbar=findViewById(R.id.contacts_toolbar);
         setSupportActionBar(toolbar);
+
+
 
         listView = (ListView) findViewById(R.id.lstContacts);
         listView.setAdapter(dataAdapter);
@@ -110,6 +116,7 @@ public class contacts extends AppCompatActivity {
     }
 
     private void getContacts(){
+
         ContentResolver contentResolver = getContentResolver();
         String contactId = null;
         String displayName = null;
@@ -120,7 +127,7 @@ public class contacts extends AppCompatActivity {
                 int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
                 if (hasPhoneNumber > 0) {
 
-                    ContactsInfo contactsInfo = new ContactsInfo();
+                    final ContactsInfo contactsInfo = new ContactsInfo();
                     contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                     displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
@@ -143,6 +150,33 @@ public class contacts extends AppCompatActivity {
                     phoneCursor.close();
 
                     contactsInfoList.add(contactsInfo);
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            String Datas = contactsInfoList.get(position).getPhoneNumber();
+                            char[] arrOfDatas = Datas.toCharArray();
+                            String finData = "";
+
+                            for(char num : arrOfDatas){
+                                if(num == ' ' || num == '(' || num == ')' || num == '-'){
+                                }else{
+                                finData = finData + num;
+                                }
+                            }
+                            if(finData.substring(0,3) !="+91"){
+                                finData = "+91" +finData;
+                            }
+
+
+
+
+
+
+
+                        }
+                    });
                 }
             }
         }
@@ -150,7 +184,13 @@ public class contacts extends AppCompatActivity {
 
         dataAdapter = new MyCustomAdapter(contacts.this, R.layout.contact_info, contactsInfoList);
         listView.setAdapter(dataAdapter);
+
+
+
+
     }
+
+
 
 
     @Override
