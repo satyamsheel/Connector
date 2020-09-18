@@ -156,7 +156,7 @@ public class contacts extends AppCompatActivity {
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
                             String Datas = contactsInfoList.get(position).getPhoneNumber();
                             char[] arrOfDatas = Datas.toCharArray();
@@ -173,9 +173,10 @@ public class contacts extends AppCompatActivity {
                             }
 
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(contacts.this);
-                            builder1.setTitle("Start Chat with "+contactsInfo.getDisplayName());
+                            builder1.setTitle("Start Chat with "+contactsInfoList.get(position).getDisplayName());
                             builder1.setPositiveButton(android.R.string.ok, null);
-                            builder1.setMessage("Add "+contactsInfo.getPhoneNumber());
+                            builder1.setMessage("Add "+contactsInfoList.get(position).getPhoneNumber());
+
                             final String finalFinData = finData;
                             builder1.setPositiveButton(
                                     "Yes",
@@ -192,13 +193,13 @@ public class contacts extends AppCompatActivity {
                                                         if (data.child(finalFinData).exists()) {
 
 
+                                                            Toast.makeText(contacts.this,""+contactsInfoList.get(position).getPhoneNumber()+"Exists",
+                                                                    Toast.LENGTH_SHORT).show();
 
                                                             //do ur stuff
                                                         } else {
-                                                            Toast.makeText(contacts.this,""+contactsInfo.getDisplayName()+
-                                                                    " is not registerd on the App",Toast.LENGTH_SHORT).show();
-
-                                                            //do something if not exists
+                                                            Toast.makeText(contacts.this,""+contactsInfoList.get(position).
+                                                                    getDisplayName()+" is not Registered on the App ", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 }
