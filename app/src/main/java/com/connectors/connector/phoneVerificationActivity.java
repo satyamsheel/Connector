@@ -204,7 +204,7 @@ public class phoneVerificationActivity extends AppCompatActivity {
     }
 
     private void setNumber(String phone_number) {
-        getRootref.child("UsersContacts").child(phone_number).setValue("").
+        getRootref.child("UsersContacts").child(phone_number).setValue(mAuth.getCurrentUser().getUid()).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

@@ -1,5 +1,6 @@
 package com.connectors.connector;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,19 +15,22 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.connectors.connector.helperClass.ContactsInfo;
 import com.connectors.connector.helperClass.MyCustomAdapter;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class contacts extends AppCompatActivity {
@@ -101,16 +105,13 @@ public class contacts extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_READ_CONTACTS: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getContacts();
-                } else {
-                    Toast.makeText(this, "You have disabled a contacts permission", Toast.LENGTH_LONG).show();
-                }
-                return;
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getContacts();
+            } else {
+                Toast.makeText(this, "You have disabled a contacts permission", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -122,6 +123,7 @@ public class contacts extends AppCompatActivity {
         String displayName = null;
         contactsInfoList = new ArrayList<ContactsInfo>();
         Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+        assert cursor != null;
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
@@ -141,6 +143,7 @@ public class contacts extends AppCompatActivity {
                             new String[]{contactId},
                             null);
 
+                    assert phoneCursor != null;
                     if (phoneCursor.moveToNext()) {
                         String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
@@ -165,9 +168,60 @@ public class contacts extends AppCompatActivity {
                                 finData = finData + num;
                                 }
                             }
-                            if(finData.substring(0,3) !="+91"){
+                            if(!finData.substring(0, 3).equals("+91")){
                                 finData = "+91" +finData;
                             }
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(contacts.this);
+                            builder1.setTitle("Start Chat with "+contactsInfo.getDisplayName());
+                            builder1.setPositiveButton(android.R.string.ok, null);
+                            builder1.setMessage("Add "+contactsInfo.getPhoneNumber());
+                            final String finalFinData = finData;
+                            builder1.setPositiveButton(
+                                    "Yes",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            DatabaseReference rootref;
+                                            rootref = FirebaseDatabase.getInstance().getReference();
+
+
+                                            rootref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    for(DataSnapshot data: dataSnapshot.getChildren()){
+                                                        if (data.child(finalFinData).exists()) {
+
+
+
+                                                            //do ur stuff
+                                                        } else {
+                                                            Toast.makeText(contacts.this,""+contactsInfo.getDisplayName()+
+                                                                    " is not registerd on the App",Toast.LENGTH_SHORT).show();
+
+                                                            //do something if not exists
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+
+                                            });
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                            builder1.setNegativeButton(
+                                    "No",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            builder1.show();
+
 
 
 

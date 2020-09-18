@@ -53,7 +53,8 @@ public class loginActivity extends AppCompatActivity {
    // FirebaseFirestore db = FirebaseFirestore.getInstance();
     ProgressDialog progressDialog,progressDialog1;
 
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new
+            PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 

@@ -24,11 +24,12 @@ public class MyCustomAdapter extends ArrayAdapter {
     }
 
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView displayName;
         TextView phoneNumber;
     }
 
+    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -36,6 +37,7 @@ public class MyCustomAdapter extends ArrayAdapter {
 
         if (convertView == null) {
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert vi != null;
             convertView = vi.inflate(R.layout.contact_info, null);
 
             holder = new ViewHolder();
